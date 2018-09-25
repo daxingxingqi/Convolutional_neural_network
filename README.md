@@ -1,10 +1,11 @@
 # Convolutional_neural_network
 
- convolutional neural network summary 是一些关于CNN的资料总结。
+ *convolutional neural network summary 是一些关于CNN的资料总结。
 
- CNN_example 是基于理解总结的一些CNN的应用实例
+ *CNN_example 是基于理解总结的一些CNN的应用实例
 
- AI_doc 是一个应用实例
+ *AI_doc 是一个应用实例
+ 
 推荐你阅读以下材料来加深对 CNN和Transfer Learning的理解:
 
 >[CS231n: Convolutional Neural Networks for Visual Recognition](http://cs231n.stanford.edu/)
