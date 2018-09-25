@@ -15,7 +15,15 @@
 >[Building an Image Classifier](https://towardsdatascience.com/learning-about-data-science-building-an-image-classifier-part-2-a7bcc6d5e825)
 
 >[Tips/Tricks in CNN](http://lamda.nju.edu.cn/weixs/project/CNNTricks/CNNTricks.html)
->;
+
+ 1) data augmentation; 
+ 2) pre-processing on images; 
+ 3) initializations of Networks; 
+ 4) some tips during training; 
+ 5) selections of activation functions; 
+ 6) diverse regularizations; 
+ 7) some insights found from figures and finally 
+ 8) methods of ensemble multiple deep networks.
 
 >[Transfer Learning using Keras](https://towardsdatascience.com/transfer-learning-using-keras-d804b2e04ef8)
 
