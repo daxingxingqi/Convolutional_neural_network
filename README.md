@@ -6,6 +6,8 @@
 
  *AI_doc 是一个应用实例
  
+ *AI_doc 是一个transfer learning应用实例
+ 
 推荐你阅读以下材料来加深对 CNN和Transfer Learning的理解:
 
 >[CS231n: Convolutional Neural Networks for Visual Recognition](http://cs231n.stanford.edu/)
