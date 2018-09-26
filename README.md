@@ -26,6 +26,46 @@
  8) methods of ensemble multiple deep networks.
 
 >[Transfer Learning using Keras](https://towardsdatascience.com/transfer-learning-using-keras-d804b2e04ef8)
+1. New dataset is small and similar to original dataset:
+There is a problem of over-fitting, if we try to train the entire network. Since the data is similar to the original data, we expect higher-level features in the ConvNet to be relevant to this dataset as well. Hence, the best idea might be to train a linear classifier on the CNN codes.
+
+So lets freeze all the VGG19 layers and train only the classifier
+```python
+for layer in model.layers:
+   layer.trainable = False
+ 
+#Now we will be training only the classifiers (FC layers)
+```
+2. New dataset is large and similar to the original dataset
+Since we have more data, we can have more confidence that we won’t overfit if we were to try to fine-tune through the full network.
+``` python
+for layer in model.layers:
+   layer.trainable = True
+#The default is already set to True. I have mentioned it here to make things clear.
+```
+In case if you want to freeze the first few layers as these layers will be detecting edges and blobs, you can freeze them by using the following code.
+```python
+for layer in model.layers[:5]:
+   layer.trainable = False.
+# Here I am freezing the first 5 layers 
+```
+3. New dataset is small but very different from the original dataset
+Since the dataset is very small, We may want to extract the features from the earlier layer and train a classifier on top of that. This requires a little bit of knowledge on h5py.
+
+The above code should help. It will extract the “block2_pool” features. In general this is not helpful as this layer has (64*64*128) features and training a classifier on top of it might not help us exactly. We can add a few FC layers and train a neural network on top of it. That should be straight forward.
+
+*Add few FC layers and output layer.
+
+*Set the weights for earlier layers and freeze them.
+
+*Train the network.
+
+4. New dataset is large and very different from the original dataset.
+This is straight forward. since you have large dataset, you can design your own network or use the existing ones.
+
+*Train the network using random initialisations or use the pre-trained network weights as initialisers. The second one is generally preferred.
+
+*If you are using a different network or making small modification here and there for the existing network, Be careful with the naming conventions.
 
 >[Transfer Learning in TensorFlow on the Kaggle Rainforest competition](https://medium.com/@luckylwk/transfer-learning-in-tensorflow-on-the-kaggle-rainforest-competition-4e978fadb571)
 
