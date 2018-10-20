@@ -1,5 +1,3 @@
-# Convolutional_neural_network
-
  *convolutional neural network summary 是一些关于CNN的资料总结。
 
  *CNN_example 是基于理解总结的一些CNN的应用实例
@@ -7,28 +5,28 @@
  *AI_doc 是一个应用实例
  
  *AI_doc 是一个transfer learning应用实例
- 
+# Transfer Learning 
 推荐你阅读以下材料来加深对 CNN和Transfer Learning的理解:
 
->[CS231n: Convolutional Neural Networks for Visual Recognition](http://cs231n.stanford.edu/)
+**[CS231n: Convolutional Neural Networks for Visual Recognition](http://cs231n.stanford.edu/)**
 
->[Using Convolutional Neural Networks to Classify Dog Breeds](http://cs231n.stanford.edu/reports/2015/pdfs/fcdh_FinalReport.pdf)
+**[Using Convolutional Neural Networks to Classify Dog Breeds](http://cs231n.stanford.edu/reports/2015/pdfs/fcdh_FinalReport.pdf)**
 
->[Building an Image Classifier](https://towardsdatascience.com/learning-about-data-science-building-an-image-classifier-part-2-a7bcc6d5e825)
+**[Building an Image Classifier](https://towardsdatascience.com/learning-about-data-science-building-an-image-classifier-part-2-a7bcc6d5e825)**
 
->[Tips/Tricks in CNN](http://lamda.nju.edu.cn/weixs/project/CNNTricks/CNNTricks.html)
+**[Tips/Tricks in CNN](http://lamda.nju.edu.cn/weixs/project/CNNTricks/CNNTricks.html)**
 
- 1) data augmentation; 
- 2) pre-processing on images; 
- 3) initializations of Networks; 
- 4) some tips during training; 
- 5) selections of activation functions; 
- 6) diverse regularizations; 
- 7) some insights found from figures and finally 
- 8) methods of ensemble multiple deep networks.
+ - 1) data augmentation; 
+ - 2) pre-processing on images; 
+ - 3) initializations of Networks; 
+ - 4) some tips during training; 
+ - 5) selections of activation functions; 
+ - 6) diverse regularizations; 
+ - 7) some insights found from figures and finally 
+ - 8) methods of ensemble multiple deep networks.
 
 ## [Transfer Learning using Keras](https://towardsdatascience.com/transfer-learning-using-keras-d804b2e04ef8)
-1. New dataset is small and similar to original dataset:
+1. **New dataset is small and similar to original dataset:**
 There is a problem of over-fitting, if we try to train the entire network. Since the data is similar to the original data, we expect higher-level features in the ConvNet to be relevant to this dataset as well. Hence, the best idea might be to train a linear classifier on the CNN codes.
 
 So lets freeze all the VGG19 layers and train only the classifier
@@ -38,7 +36,7 @@ for layer in model.layers:
  
 #Now we will be training only the classifiers (FC layers)
 ```
-2. New dataset is large and similar to the original dataset
+2. **New dataset is large and similar to the original dataset**
 Since we have more data, we can have more confidence that we won’t overfit if we were to try to fine-tune through the full network.
 ``` python
 for layer in model.layers:
@@ -51,7 +49,7 @@ for layer in model.layers[:5]:
    layer.trainable = False.
 # Here I am freezing the first 5 layers 
 ```
-3. New dataset is small but very different from the original dataset
+3. **New dataset is small but very different from the original dataset**
 Since the dataset is very small, We may want to extract the features from the earlier layer and train a classifier on top of that. This requires a little bit of knowledge on h5py.
 
 The above code should help. It will extract the “block2_pool” features. In general this is not helpful as this layer has (64*64*128) features and training a classifier on top of it might not help us exactly. We can add a few FC layers and train a neural network on top of it. That should be straight forward.
@@ -62,7 +60,7 @@ The above code should help. It will extract the “block2_pool” features. In g
 
 *Train the network.
 
-4. New dataset is large and very different from the original dataset.
+4. **New dataset is large and very different from the original dataset.**
 This is straight forward. since you have large dataset, you can design your own network or use the existing ones.
 
 *Train the network using random initialisations or use the pre-trained network weights as initialisers. The second one is generally preferred.
@@ -75,7 +73,86 @@ This is straight forward. since you have large dataset, you can design your own 
 
 相关论文:
 
->[[VGG16] VERY DEEP CONVOLUTIONAL NETWORKS FOR LARGE-SCALE IMAGE RECOGNITION](https://arxiv.org/abs/1409.1556)
+**[[VGG16] VERY DEEP CONVOLUTIONAL NETWORKS FOR LARGE-SCALE IMAGE RECOGNITION](https://arxiv.org/abs/1409.1556)**
+- VGG16
+``` python
+from keras.models import Sequential
+from keras.layers import Dense, Activation, Dropout, Flatten
+from keras.layers import Conv2D
+from keras.layers import MaxPooling2D
+
+input_shape = (224, 224, 3)
+
+model = Sequential([
+    Conv2D(64, (3, 3), input_shape=input_shape, padding='same',
+           activation='relu'),
+    Conv2D(64, (3, 3), activation='relu', padding='same'),
+    MaxPooling2D(pool_size=(2, 2), strides=(2, 2)),
+    Conv2D(128, (3, 3), activation='relu', padding='same'),
+    Conv2D(128, (3, 3), activation='relu', padding='same',),
+    MaxPooling2D(pool_size=(2, 2), strides=(2, 2)),
+    Conv2D(256, (3, 3), activation='relu', padding='same',),
+    Conv2D(256, (3, 3), activation='relu', padding='same',),
+    Conv2D(256, (3, 3), activation='relu', padding='same',),
+    MaxPooling2D(pool_size=(2, 2), strides=(2, 2)),
+    Conv2D(512, (3, 3), activation='relu', padding='same',),
+    Conv2D(512, (3, 3), activation='relu', padding='same',),
+    Conv2D(512, (3, 3), activation='relu', padding='same',),
+    MaxPooling2D(pool_size=(2, 2), strides=(2, 2)),
+    Conv2D(512, (3, 3), activation='relu', padding='same',),
+    Conv2D(512, (3, 3), activation='relu', padding='same',),
+    Conv2D(512, (3, 3), activation='relu', padding='same',),
+    MaxPooling2D(pool_size=(2, 2), strides=(2, 2)),
+    Flatten(),
+    Dense(4096, activation='relu'),
+    Dense(4096, activation='relu'),
+    Dense(1000, activation='softmax')
+])
+
+model.summary()
+```
+- VGG19
+``` python
+from keras.models import Sequential
+from keras.layers import Dense, Activation, Dropout, Flatten
+from keras.layers import Conv2D
+from keras.layers import MaxPooling2D
+
+input_shape = (224, 224, 3)
+
+model = Sequential([
+    Conv2D(64, (3, 3), input_shape=input_shape, padding='same',
+           activation='relu'),
+    Conv2D(64, (3, 3), activation='relu', padding='same'),
+    MaxPooling2D(pool_size=(2, 2), strides=(2, 2)),
+    Conv2D(128, (3, 3), activation='relu', padding='same'),
+    Conv2D(128, (3, 3), activation='relu', padding='same',),
+    MaxPooling2D(pool_size=(2, 2), strides=(2, 2)),
+    Conv2D(256, (3, 3), activation='relu', padding='same',),
+    Conv2D(256, (3, 3), activation='relu', padding='same',),
+    Conv2D(256, (3, 3), activation='relu', padding='same',),
+    Conv2D(256, (3, 3), activation='relu', padding='same',)
+    MaxPooling2D(pool_size=(2, 2), strides=(2, 2)),
+    Conv2D(512, (3, 3), activation='relu', padding='same',),
+    Conv2D(512, (3, 3), activation='relu', padding='same',),
+    Conv2D(512, (3, 3), activation='relu', padding='same',),
+    Conv2D(512, (3, 3), activation='relu', padding='same',)
+    MaxPooling2D(pool_size=(2, 2), strides=(2, 2)),
+    Conv2D(512, (3, 3), activation='relu', padding='same',),
+    Conv2D(512, (3, 3), activation='relu', padding='same',),
+    Conv2D(512, (3, 3), activation='relu', padding='same',),
+    Conv2D(512, (3, 3), activation='relu', padding='same',)
+    MaxPooling2D(pool_size=(2, 2), strides=(2, 2)),
+    Flatten(),
+    Dense(4096, activation='relu'),
+    Dense(4096, activation='relu'),
+    Dense(1000, activation='softmax')
+])
+
+model.summary()
+```
+
+
 
 >[[Inception-v1] Going deeper with convolutions](https://arxiv.org/abs/1409.4842)
 
