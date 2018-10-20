@@ -153,6 +153,7 @@ model.summary()
 ```
 
 **[[Inception-v1] Going deeper with convolutions](https://arxiv.org/abs/1409.4842)**
+
 讲解-https://becominghuman.ai/understanding-and-coding-inception-module-in-keras-eb56e9056b4b
 <div align=center><img width="550" src=resource/1.png></div>
 
@@ -290,15 +291,25 @@ def check_print():
 if __name__=='__main__':
     check_print() 
 ```
+ **[[Inception V2], Batch Normalization:Accelerating Deep Network Training by Reducing Internal Covariate Shift](http://arxiv.org/abs/1502.03167)**
 
->[[Inception-v3] Rethinking the Inception Architecture for Computer Vision](https://arxiv.org/abs/1512.00567)
+Inception V2的网络在Inception v1的基础上，进行了改进，一方面了加入了BN层，减少了Internal Covariate Shift（内部神经元分布的改变），使每一层的输出都规范化到一个N(0, 1)的高斯，还去除了Dropout、LRN等结构；另外一方面学习VGG用2个3x3的卷积替代inception模块中的5x5卷积，既降低了参数数量，又加速计算。
 
->[[Inception-v4] Inception-ResNet and the Impact of Residual Connections on Learning](https://arxiv.org/abs/1602.07261)
+**[[Inception-v3] Rethinking the Inception Architecture for Computer Vision](https://arxiv.org/abs/1512.00567)**
+ 
+ Inception V3一个最重要的改进是分解（Factorization），将7x7分解成两个一维的卷积（1x7,7x1），3x3也是一样（1x3,3x1）。这样的好处，既可以加速计算（多余的计算能力可以用来加深网络），又可以将1个conv拆成2个conv，使得网络深度进一步增加，增加了网络的非线性，可以处理更多更丰富的空间特征，增加特征多样性。还有值得注意的地方是网络输入从224x224变为了299x299，更加精细设计了35x35/17x17/8x8的模块。
+ 
+**[[Inception-v4] Inception-ResNet and the Impact of Residual Connections on Learning](https://arxiv.org/abs/1602.07261)**
 
->[[ResNet] Deep Residual Learning for Image Recognition](https://arxiv.org/abs/1512.03385)
+Inception V4结合了微软的ResNet，发现ResNet的结构可以极大地加速训练，同时性能也有提升，得到一个Inception-ResNet V2网络，同时还设计了一个更深更优化的Inception V4模型，能达到与Inception-ResNet V2相媲美的性能。
 
->[[Xception] Deep Learning with Depthwise Separable Convolutions](https://arxiv.org/abs/1610.02357)
+**[[ResNet] Deep Residual Learning for Image Recognition](https://arxiv.org/abs/1512.03385)**
 
+讲解-https://blog.waya.ai/deep-residual-learning-9610bb62c355
+
+**[[Xception] Deep Learning with Depthwise Separable Convolutions](https://arxiv.org/abs/1610.02357)**
+
+讲解-https://blog.csdn.net/u014380165/article/details/75142710
 
 
 此外，我注意到你使用的图片是从我们提供的数据集中选取的，我非常不推荐这种做法。这种行为可能会导致标签泄露（Label Leakage），并不能很好的评估你的模型的泛化能力。因为，模型在训练过程中本身就是在不断拟合训练集，它能很好地预测训练集里的图片是理所应当的。而验证泛化能力最好的做法就是，使用真实的、在训练集/测试集/验证集都没有出现过的图片来进行测试。你可以自由的使用网上的图片或者自己的图片~😉 同时，希望你能尝试类型的图片来进行实验，比如猫、多条狗（可以是不同品种）、带着狗耳朵的人、风景照等。按照机器学习的思路，你的输入覆盖的输入空间越多，那么你就能对模型进行越好的评估。也就是说，你尝试的图片类型越多，对模型的评估能力就越强。😄
