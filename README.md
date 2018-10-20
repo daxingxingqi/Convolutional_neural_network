@@ -155,21 +155,26 @@ model.summary()
 **[[Inception-v1] Going deeper with convolutions](https://arxiv.org/abs/1409.4842)**
 讲解-https://becominghuman.ai/understanding-and-coding-inception-module-in-keras-eb56e9056b4b
 <div align=center><img width="550" src=resource/1.png></div>
+
 ``` python
 #-*- coding: UTF-8 -*-
+"""
+Author: lanbing510
+Environment: Keras2.0.5，Python2.7
+Model: GoogLeNet Inception V1
+"""
 
 from keras.layers import Conv2D, MaxPooling2D, AveragePooling2D, ZeroPadding2D
-from keras.layers import Flatten, Dense, Dropout,BatchNormalization
+from keras.layers import Flatten, Dense, Dropout
 from keras.layers import Input, concatenate
-from keras.models import Model,load_model
-from keras.preprocessing.image import ImageDataGenerator
-from keras.utils import plot_model,np_utils
+from keras.models import Model
 from keras import regularizers
-import keras.metrics as metric
-import os
+from keras.utils import plot_model
+from KerasLayers.Custom_layers import LRN2D
+
 
 # Global Constants
-NB_CLASS=20
+NB_CLASS=1000
 LEARNING_RATE=0.01
 MOMENTUM=0.9
 ALPHA=0.0001
@@ -180,69 +185,9 @@ WEIGHT_DECAY=0.0005
 LRN2D_NORM=True
 DATA_FORMAT='channels_last' # Theano:'channels_first' Tensorflow:'channels_last'
 USE_BN=True
-IM_WIDTH=224
-IM_HEIGHT=224
-EPOCH=50
 
-train_root='/home/faith/keras/dataset/traindata/'
-vaildation_root='/home/faith/keras/dataset/vaildationdata/'
-test_root='/home/faith/keras/dataset/testdata/'
 
-IM_WIDTH=224
-IM_HEIGHT=224
-batch_size=32
-
-#train data
-train_datagen = ImageDataGenerator(
-    rotation_range=30,
-    width_shift_range=0.2,
-    height_shift_range=0.2,
-    shear_range=0.2,
-    zoom_range=0.2,
-    horizontal_flip=True,
-    featurewise_center=True
-)
-train_generator = train_datagen.flow_from_directory(
-  train_root,
-  target_size=(IM_WIDTH, IM_HEIGHT),
-  batch_size=batch_size,
-)
-
-#vaild data
-vaild_datagen = ImageDataGenerator(
-    rotation_range=30,
-    width_shift_range=0.2,
-    height_shift_range=0.2,
-    shear_range=0.2,
-    zoom_range=0.2,
-    horizontal_flip=True,
-    featurewise_center=True
-)
-vaild_generator = train_datagen.flow_from_directory(
-  vaildation_root,
-  target_size=(IM_WIDTH, IM_HEIGHT),
-  batch_size=batch_size,
-)
-
-#test data
-test_datagen = ImageDataGenerator(
-    rotation_range=30,
-    width_shift_range=0.2,
-    height_shift_range=0.2,
-    shear_range=0.2,
-    zoom_range=0.2,
-    horizontal_flip=True,
-    featurewise_center=True
-)
-test_generator = train_datagen.flow_from_directory(
-  test_root,
-  target_size=(IM_WIDTH, IM_HEIGHT),
-  batch_size=batch_size,
-)
-
-#normalization
 def conv2D_lrn2d(x,filters,kernel_size,strides=(1,1),padding='same',data_format=DATA_FORMAT,dilation_rate=(1,1),activation='relu',use_bias=True,kernel_initializer='glorot_uniform',bias_initializer='zeros',kernel_regularizer=None,bias_regularizer=None,activity_regularizer=None,kernel_constraint=None,bias_constraint=None,lrn2d_norm=LRN2D_NORM,weight_decay=WEIGHT_DECAY):
-    #l2 normalization
     if weight_decay:
         kernel_regularizer=regularizers.l2(weight_decay)
         bias_regularizer=regularizers.l2(weight_decay)
@@ -253,8 +198,7 @@ def conv2D_lrn2d(x,filters,kernel_size,strides=(1,1),padding='same',data_format=
     x=Conv2D(filters=filters,kernel_size=kernel_size,strides=strides,padding=padding,data_format=data_format,dilation_rate=dilation_rate,activation=activation,use_bias=use_bias,kernel_initializer=kernel_initializer,bias_initializer=bias_initializer,kernel_regularizer=kernel_regularizer,bias_regularizer=bias_regularizer,activity_regularizer=activity_regularizer,kernel_constraint=kernel_constraint,bias_constraint=bias_constraint)(x)
 
     if lrn2d_norm:
-        #batch normalization
-        x=BatchNormalization()(x)
+        x=LRN2D(alpha=ALPHA,beta=BETA)(x)
 
     return x
 
@@ -268,18 +212,15 @@ def inception_module(x,params,concat_axis,padding='same',data_format=DATA_FORMAT
     else:
         kernel_regularizer=None
         bias_regularizer=None
-    #1x1
+
     pathway1=Conv2D(filters=branch1[0],kernel_size=(1,1),strides=1,padding=padding,data_format=data_format,dilation_rate=dilation_rate,activation=activation,use_bias=use_bias,kernel_initializer=kernel_initializer,bias_initializer=bias_initializer,kernel_regularizer=kernel_regularizer,bias_regularizer=bias_regularizer,activity_regularizer=activity_regularizer,kernel_constraint=kernel_constraint,bias_constraint=bias_constraint)(x)
 
-    #1x1->3x3
     pathway2=Conv2D(filters=branch2[0],kernel_size=(1,1),strides=1,padding=padding,data_format=data_format,dilation_rate=dilation_rate,activation=activation,use_bias=use_bias,kernel_initializer=kernel_initializer,bias_initializer=bias_initializer,kernel_regularizer=kernel_regularizer,bias_regularizer=bias_regularizer,activity_regularizer=activity_regularizer,kernel_constraint=kernel_constraint,bias_constraint=bias_constraint)(x)
     pathway2=Conv2D(filters=branch2[1],kernel_size=(3,3),strides=1,padding=padding,data_format=data_format,dilation_rate=dilation_rate,activation=activation,use_bias=use_bias,kernel_initializer=kernel_initializer,bias_initializer=bias_initializer,kernel_regularizer=kernel_regularizer,bias_regularizer=bias_regularizer,activity_regularizer=activity_regularizer,kernel_constraint=kernel_constraint,bias_constraint=bias_constraint)(pathway2)
 
-    #1x1->5x5
     pathway3=Conv2D(filters=branch3[0],kernel_size=(1,1),strides=1,padding=padding,data_format=data_format,dilation_rate=dilation_rate,activation=activation,use_bias=use_bias,kernel_initializer=kernel_initializer,bias_initializer=bias_initializer,kernel_regularizer=kernel_regularizer,bias_regularizer=bias_regularizer,activity_regularizer=activity_regularizer,kernel_constraint=kernel_constraint,bias_constraint=bias_constraint)(x)
     pathway3=Conv2D(filters=branch3[1],kernel_size=(5,5),strides=1,padding=padding,data_format=data_format,dilation_rate=dilation_rate,activation=activation,use_bias=use_bias,kernel_initializer=kernel_initializer,bias_initializer=bias_initializer,kernel_regularizer=kernel_regularizer,bias_regularizer=bias_regularizer,activity_regularizer=activity_regularizer,kernel_constraint=kernel_constraint,bias_constraint=bias_constraint)(pathway3)
 
-    #3x3->1x1
     pathway4=MaxPooling2D(pool_size=(3,3),strides=1,padding=padding,data_format=DATA_FORMAT)(x)
     pathway4=Conv2D(filters=branch4[0],kernel_size=(1,1),strides=1,padding=padding,data_format=data_format,dilation_rate=dilation_rate,activation=activation,use_bias=use_bias,kernel_initializer=kernel_initializer,bias_initializer=bias_initializer,kernel_regularizer=kernel_regularizer,bias_regularizer=bias_regularizer,activity_regularizer=activity_regularizer,kernel_constraint=kernel_constraint,bias_constraint=bias_constraint)(pathway4)
 
@@ -288,7 +229,6 @@ def inception_module(x,params,concat_axis,padding='same',data_format=DATA_FORMAT
 
 
 def create_model():
-    #Data format:tensorflow,channels_last;theano,channels_last
     if DATA_FORMAT=='channels_first':
         INP_SHAPE=(3,224,224)
         img_input=Input(shape=INP_SHAPE)
@@ -298,11 +238,11 @@ def create_model():
         img_input=Input(shape=INP_SHAPE)
         CONCAT_AXIS=3
     else:
-        raise Exception('Invalid Dim Ordering')
+        raise Exception('Invalid Dim Ordering: '+str(DIM_ORDERING))
 
     x=conv2D_lrn2d(img_input,64,(7,7),2,padding='same',lrn2d_norm=False)
     x=MaxPooling2D(pool_size=(3,3),strides=2,padding='same',data_format=DATA_FORMAT)(x)
-    x=BatchNormalization()(x)
+    x=LRN2D(alpha=ALPHA,beta=BETA)(x)
 
     x=conv2D_lrn2d(x,64,(1,1),1,padding='same',lrn2d_norm=False)
 
@@ -343,27 +283,12 @@ def check_print():
     # Save a PNG of the Model Build
     plot_model(model,to_file='GoogLeNet.png')
 
-    model.compile(optimizer='adam',loss='categorical_crossentropy',metrics=['acc',metric.top_k_categorical_accuracy])
+    model.compile(optimizer='rmsprop',loss='categorical_crossentropy')
     print 'Model Compiled'
-    return model
+
 
 if __name__=='__main__':
-    if os.path.exists('inception_1.h5'):
-        model=load_model('inception_1.h5')
-    else:
-        model=check_print()
-
-    model.fit_generator(train_generator,validation_data=vaild_generator,epochs=EPOCH,steps_per_epoch=train_generator.n/batch_size
-                        ,validation_steps=vaild_generator.n/batch_size)
-    model.save('inception_1.h5')
-    model.metrics=['acc',metric.top_k_categorical_accuracy]
-    loss,acc,top_acc=model.evaluate_generator(test_generator,steps=test_generator.n/batch_size)
-    print 'Test result:loss:%f,acc:%f,top_acc:%f'%(loss,acc,top_acc)
---------------------- 
-作者：Spongelady 
-来源：CSDN 
-原文：https://blog.csdn.net/qq_25491201/article/details/78367696 
-版权声明：本文为博主原创文章，转载请附上博文链接！
+    check_print() 
 ```
 
 >[[Inception-v3] Rethinking the Inception Architecture for Computer Vision](https://arxiv.org/abs/1512.00567)
