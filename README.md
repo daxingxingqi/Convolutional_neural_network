@@ -27,7 +27,7 @@
  7) some insights found from figures and finally 
  8) methods of ensemble multiple deep networks.
 
->[Transfer Learning using Keras](https://towardsdatascience.com/transfer-learning-using-keras-d804b2e04ef8)
+## [Transfer Learning using Keras](https://towardsdatascience.com/transfer-learning-using-keras-d804b2e04ef8)
 1. New dataset is small and similar to original dataset:
 There is a problem of over-fitting, if we try to train the entire network. Since the data is similar to the original data, we expect higher-level features in the ConvNet to be relevant to this dataset as well. Hence, the best idea might be to train a linear classifier on the CNN codes.
 
