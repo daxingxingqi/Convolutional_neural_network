@@ -69,7 +69,7 @@ This is straight forward. since you have large dataset, you can design your own 
 
 >[Transfer Learning in TensorFlow on the Kaggle Rainforest competition](https://medium.com/@luckylwk/transfer-learning-in-tensorflow-on-the-kaggle-rainforest-competition-4e978fadb571)
 
->[Transfer Learning and Fine-tuning](https://deeplearningsandbox.com/how-to-use-transfer-learning-and-fine-tuning-in-keras-and-tensorflow-to-build-an-image-recognition-94b0b02444f2)
+>[Transfer Learning and Fine-tuning](https://medium.com/deeplearningsandbox/how-to-use-transfer-learning-and-fine-tuning-in-keras-and-tensorflow-to-build-an-image-recognition-94b0b02444f2)
 
 相关论文:
 
@@ -152,9 +152,11 @@ model = Sequential([
 model.summary()
 ```
 
-
-
->[[Inception-v1] Going deeper with convolutions](https://arxiv.org/abs/1409.4842)
+**[[Inception-v1] Going deeper with convolutions](https://arxiv.org/abs/1409.4842)**
+讲解-https://becominghuman.ai/understanding-and-coding-inception-module-in-keras-eb56e9056b4b
+<div align=center><img width="550" src=resource/1.png></div>
+``` python
+```
 
 >[[Inception-v3] Rethinking the Inception Architecture for Computer Vision](https://arxiv.org/abs/1512.00567)
 
