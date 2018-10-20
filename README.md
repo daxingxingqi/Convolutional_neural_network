@@ -311,6 +311,55 @@ Inception V4结合了微软的ResNet，发现ResNet的结构可以极大地加�
 
 讲解-https://blog.csdn.net/u014380165/article/details/75142710
 
+# CNN 应用案例
+
+课外资料
+注：部分资料来自国外 youtube 与 google research.
+
+**了解 [WaveNet](https://deepmind.com/blog/wavenet-generative-model-raw-audio/) 模型。**
+
+>如果你能训练人工智能机器人唱歌，干嘛还训练它聊天？在 2017 年 4 月，研究人员使用 WaveNet 模型的变体生成了歌曲。原始论文和演示可以在[此处](http://www.creativeai.net/posts/W2C3baXvf2yJSLbY6/a-neural-parametric-singing-synthesizer)找到。
+
+**了解[文本分类CNN](http://www.wildml.com/2015/12/implementing-a-cnn-for-text-classification-in-tensorflow/) 。**
+
+>你或许想注册作者的深度学习简讯！
+
+**了解 Facebook 的[创新 CNN 方法(Facebook)](https://code.facebook.com/posts/1978007565818999/a-novel-approach-to-neural-machine-translation/)**，该方法专门用于解决语言翻译任务，准确率达到了前沿性水平，并且速度是 RNN 模型的 9 倍。
+
+**利用 CNN 和强化学习玩 [Atari](https://deepmind.com/research/dqn/) 游戏。你可以[下载](https://sites.google.com/a/deepmind.com/dqn/)此论文附带的代码。**
+
+>如果你想研究一些（深度强化学习）初学者代码，建议你参阅 [Andrej Karpathy](http://karpathy.github.io/2016/05/31/rl/) 的帖子。
+
+**利用 CNN [玩看图说词游戏](https://quickdraw.withgoogle.com/#)！**
+
+>此外，还可以参阅 [A.I. Experiments](https://aiexperiments.withgoogle.com/) 网站上的所有其他很酷的实现。别忘了 [AutoDraw](https://www.autodraw.com/)！
+
+**详细了解 [AlphaGo](https://deepmind.com/research/alphago/)。**
+
+>阅读[这篇文章](https://www.technologyreview.com/s/604273/finding-solace-in-defeat-by-artificial-intelligence/?set=604287)，其中提出了一个问题：如果掌控 Go“需要人类直觉”，那么人性受到挑战是什么感觉？_
+
+**观看这些非常酷的视频，其中的无人机都受到 CNN 的支持。**
+
+>这是初创企业 [Intelligent Flying Machines (IFM)](https://www.youtube.com/watch?v=AMDiR61f86Y) (Youtube)的访谈。
+
+>户外自主导航通常都要借助[全球定位系统 (GPS)](http://www.droneomega.com/gps-drone-navigation-works/)，但是下面的演示展示的是由 CNN 提供技术支持的[自主无人机](https://www.youtube.com/watch?v=wSFYOw4VIYY)(Youtube)。
+
+**如果你对无人驾驶汽车使用的 CNN 感兴趣，请参阅：**
+
+>我们的[无人驾驶汽车工程师纳米学位课程](https://www.udacity.com/course/self-driving-car-engineer-nanodegree--nd013)，我们在[此项目](https://github.com/udacity/CarND-Traffic-Sign-Classifier-Project)中对[德国交通标志](http://benchmark.ini.rub.de/?section=gtsrb&subsection=dataset)数据集中的标志进行分类。
+
+>这些[系列博客](https://pythonprogramming.net/game-frames-open-cv-python-plays-gta-v/)，其中详细讲述了如何训练用 Python 编写的 CNN，以便生成能够玩“侠盗猎车手”的无人驾驶 AI。
+
+**参阅视频中没有提到的其他应用情形。**
+
+>一些全球最著名的画作被[转换成了三维形式](http://www.businessinsider.com/3d-printed-works-of-art-for-the-blind-2016-1)，以便视力受损人士也能欣赏。虽然这篇文章没有提到是怎么做到的，我们注意到可以使用 CNN [预测单个图片的深度](https://www.cs.nyu.edu/~deigen/depth/)。
+
+>参阅这篇关于使用 CNN 确定乳腺癌位置的[研究论文](https://research.googleblog.com/2017/03/assisting-pathologists-in-detecting.html)(google research)。
+
+>CNN 被用来[拯救濒危物种](https://blogs.nvidia.com/blog/2016/11/04/saving-endangered-species/?adbsc=social_20170303_70517416)！
+
+>一款叫做 [FaceApp](http://www.digitaltrends.com/photography/faceapp-neural-net-image-editing/) 的应用使用 CNN 让你在照片中是微笑状态或改变性别。
+
 
 此外，我注意到你使用的图片是从我们提供的数据集中选取的，我非常不推荐这种做法。这种行为可能会导致标签泄露（Label Leakage），并不能很好的评估你的模型的泛化能力。因为，模型在训练过程中本身就是在不断拟合训练集，它能很好地预测训练集里的图片是理所应当的。而验证泛化能力最好的做法就是，使用真实的、在训练集/测试集/验证集都没有出现过的图片来进行测试。你可以自由的使用网上的图片或者自己的图片~😉 同时，希望你能尝试类型的图片来进行实验，比如猫、多条狗（可以是不同品种）、带着狗耳朵的人、风景照等。按照机器学习的思路，你的输入覆盖的输入空间越多，那么你就能对模型进行越好的评估。也就是说，你尝试的图片类型越多，对模型的评估能力就越强。😄
 
@@ -325,3 +374,113 @@ Inception V4结合了微软的ResNet，发现ResNet的结构可以极大地加�
 4.更换人脸检测算法 尽管OpenCV工具包非常方便并且高效，Haar级联检测也是一个可以直接使用的强力算法，但是这些算法仍然不能获得很高的准确率，并且需要用户提供正面照片，这带来的一定的不便。所以如果想要获得更好的用户体验和准确率，我们可以尝试一些新的人脸识别算法，如基于深度学习的一些算法。
 
 5.多目标监测 更进一步，我们可以通过一些先进的目标识别算法，如RCNN、Fast-RCNN、Faster-RCNN或Masked-RCNN等，来完成一张照片中同时出现多个目标的检测任务。
+
+# 损失和优化算法
+
+*损失函数是用来估量模型中预测值y与真实值Y之间的差异，即不一致程度
+
+如果你想详细了解 Keras 中的完全连接层，请阅读这篇关于密集层的[文档](https://keras.io/layers/core/)。你可以通过为 **kernel_initializer** 和 **bias_initializer** 参数提供值更改权重的初始化方法。注意默认值分别为 **'glorot_uniform'** 和 **'zeros'**。你可以在相应的 Keras [文档](https://keras.io/initializers/)中详细了解每种初始化程序的工作方法。
+
+Keras 中有很多不同的[损失函数](https://keras.io/losses/)。对于这节课来说，我们将仅使用 **categorical_crossentropy**。
+
+参阅 Keras 中可[用的优化程序列表](https://keras.io/optimizers/)。当你编译模型（在记事本的第 7 步）时就会指定优化程序。
+>**'sgd'** : SGD
+
+>**'rmsprop'** : RMSprop
+
+>**'adagrad'** : Adagrad
+
+>**'adadelta'** : Adadelta
+
+>**'adam'** : Adam
+
+>**'adamax'** : Adamax
+
+>**'nadam'** : Nadam
+
+>**'tfoptimizer'** : TFOptimizer
+
+**关于激活函数的[文档](http://cs231n.github.io/neural-networks-1/#actfun)**
+
+# checkpoint
+
+*在训练过程中，你可以使用很多回调（例如 ModelCheckpoint）来监控你的模型。你可以参阅此处的[详情内容](https://keras.io/callbacks/#modelcheckpoint)。建议你先详细了解 EarlyStopping 回调。如果你想查看另一个 ModelCheckpoint 代码示例，请参阅[这篇博文](http://machinelearningmastery.com/check-point-deep-learning-models-keras/)。
+
+*Mnist 参阅[其他分类器](http://yann.lecun.com/exdb/mnist/)的效果
+
+# 池化
+
+请参阅该 Keras [文档](https://keras.io/layers/pooling/)，了解不同类型的池化层！
+
+论文[network in network](https://arxiv.org/abs/1312.4400)
+
+参阅 CIFAR-10 竞赛的[获胜架构](http://blog.kaggle.com/2015/01/02/cifar-10-competition-winners-interviews-with-dr-ben-graham-phil-culliton-zygmunt-zajac/)！
+
+# 数据增强
+
+关于 `steps_per_epoch` 的注意事项
+
+`fit_generator` 具有很多参数，包括
+
+``` python
+steps_per_epoch = x_train.shape[0] / batch_size
+```
+其中 `x_train.shape[0]` 对应的是训练数据集 x_train 中的独特样本数量。通过将 steps_per_epoch 设为此值，我们确保模型在每个 epoch 中看到 `x_train.shape[0]` 个增强图片。
+
+
+
+>阅读这篇对 MNIST 数据集进行可视化的[精彩博文](http://machinelearningmastery.com/image-augmentation-deep-learning-keras/)。
+
+>参阅此[详细实现](https://blog.keras.io/building-powerful-image-classification-models-using-very-little-data.html)，了解如何使用增强功能提高 Kaggle 数据集的效果。
+
+>阅读关于 ImageDataGenerator 类的 Keras [文档](https://keras.io/preprocessing/image/)。
+
+# 补充资料
+
+参阅 [AlexNet](http://papers.nips.cc/paper/4824-imagenet-classification-with-deep-convolutional-neural-networks.pdf) 论文！
+
+在此处详细了解 [VGGNet](https://arxiv.org/pdf/1409.1556.pdf)。
+
+此处是 [ResNet](https://arxiv.org/pdf/1512.03385v1.pdf) 论文。
+
+这是用于访问一些著名 CNN 架构的 Keras [文档](https://keras.io/applications/)。
+
+阅读这一关于梯度消失问题的[详细处理方案](http://neuralnetworksanddeeplearning.com/chap5.html)。
+
+这是包含不同 CNN 架构的基准的 GitHub [资源库](https://github.com/jcjohnson/cnn-benchmarks)。
+
+访问 [ImageNet Large Scale Visual Recognition Competition (ILSVRC)](http://www.image-net.org/challenges/LSVRC/) 网站。
+
+可以在[此处](https://github.com/udacity/machine-learning/tree/master/projects/practice_projects/cnn)链接的 GitHub 资源库中访问视频中提到的 Jupyter Notebook。转到 transfer-learning/ 文件夹并打开 transfer_learning.ipynb。如果你想了解如何计算自己的瓶颈特征，请查看 bottleneck_features.ipynb（你可能无法在 AWS GPU 实例上运行 bottleneck_features.ipynb，如果是这种情况，你可以在本地 CPU/GPU 上使用 notebook！）
+
+课外资料
+这是提议将 GAP 层级用于对象定位的[首篇研究论文](http://cnnlocalization.csail.mit.edu/Zhou_Learning_Deep_Features_CVPR_2016_paper.pdf)。
+参阅这个使用 CNN 进行对象定位的[资源库](https://github.com/alexisbcook/ResNetCAM-keras)。
+观看这个关于使用 CNN 进行对象定位的[视频演示](https://www.youtube.com/watch?v=fZvOy0VXWAI)(Youtube链接，国内网络可能打不开)。
+参阅这个使用可视化机器更好地理解瓶颈特征的[资源库](https://github.com/alexisbcook/keras_transfer_cifar10)。
+
+（非常棒的）课外资料 ！
+
+注：由于以下部分链接来自于外网，国内网络可能打不开
+
+如果你想详细了解如何解读 CNN（尤其是卷积层），建议查看以下资料：
+
+>这是摘自斯坦福大学的 CS231n 课程中的一个a [章节](http://cs231n.github.io/understanding-cnn/)，其中对 CNN 学习的内容进行了可视化。
+
+>参阅这个关于很酷的 [OpenFrameworks](http://openframeworks.cc/) 应用的[演示](https://aiexperiments.withgoogle.com/what-neural-nets-see)，该应用可以根据用户提供的视频实时可视化 CNN！
+
+>这是另一个 CNN 可视化工具的[演示](https://www.youtube.com/watch?v=AgkfIQ4IGaM&t=78s)。如果你想详细了解这些可视化图表是如何制作的，请观看此[视频](https://www.youtube.com/watch?v=ghEmQSxT6tw&t=5s)。
+
+>这是另一个可与 Keras 和 Tensorflow 中的 CNN 无缝合作的[可视化工具](https://medium.com/merantix/picasso-a-free-open-source-visualizer-for-cnns-d8ed3a35cfc5)。
+
+>阅读这篇可视化 CNN 如何看待这个世界的 [Keras 博文](https://blog.keras.io/how-convolutional-neural-networks-see-the-world.html)。在此博文中，你会找到 Deep Dreams 的简单介绍，以及在 Keras 中自己编写 Deep Dreams 的代码。阅读了这篇博文后：
+
+>再观看这个利用 [Deep Dreams](https://www.youtube.com/watch?v=XatXy6ZhKZw) 的音乐视频（注意 3:15-3:40 部分）！
+
+>使用这个[网站](https://deepdreamgenerator.com/)创建自己的 Deep Dreams（不用编写任何代码！）。
+
+如果你想详细了解 CNN 的解释
+
+>这篇[文章](https://blog.openai.com/adversarial-example-research/)详细讲解了在现实生活中使用深度学习模型（暂时无法解释）的一些危险性。
+
+>这一领域有很多热点研究。[这些作者](https://arxiv.org/abs/1611.03530)最近朝着正确的方向迈出了一步。
