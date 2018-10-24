@@ -158,6 +158,8 @@ model.summary()
 
 **[[Inception-v1] Going deeper with convolutions](https://arxiv.org/abs/1409.4842)**
 
+为什么1*1卷积-https://iamaaditya.github.io/2016/03/one-by-one-convolution/
+
 讲解-https://becominghuman.ai/understanding-and-coding-inception-module-in-keras-eb56e9056b4b
 <div align=center><img width="550" src=resource/1.png></div>
 
