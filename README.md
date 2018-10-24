@@ -12,6 +12,8 @@
 
 点这里查看[笔记](https://github.com/daxingxingqi/CS231n-2017-Summary)
 
+点这里查看官方[笔记](https://cs231n.github.io/)
+
 **[Using Convolutional Neural Networks to Classify Dog Breeds](http://cs231n.stanford.edu/reports/2015/pdfs/fcdh_FinalReport.pdf)**
 
 **[Building an Image Classifier](https://towardsdatascience.com/learning-about-data-science-building-an-image-classifier-part-2-a7bcc6d5e825)**
