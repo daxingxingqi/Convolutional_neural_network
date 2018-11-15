@@ -1,18 +1,12 @@
- *convolutional neural network summary 是一些关于CNN的资料总结。
+# 1.Transfer Learning 
 
- *CNN_example 是基于理解总结的一些CNN的应用实例
-
- *AI_doc 是一个应用实例
- 
- *AI_doc 是一个transfer learning应用实例
-# Transfer Learning 
 推荐你阅读以下材料来加深对 CNN和Transfer Learning的理解:
 
 **[CS231n: Convolutional Neural Networks for Visual Recognition](http://cs231n.stanford.edu/)**
 
-点这里查看[笔记](https://github.com/daxingxingqi/CS231n-2017-Summary)
+> 点这里查看[笔记](https://github.com/daxingxingqi/CS231n-2017-Summary)
 
-点这里查看官方[笔记](https://cs231n.github.io/)
+> 点这里查看官方[笔记](https://cs231n.github.io/)
 
 **[Using Convolutional Neural Networks to Classify Dog Breeds](http://cs231n.stanford.edu/reports/2015/pdfs/fcdh_FinalReport.pdf)**
 
@@ -20,66 +14,73 @@
 
 **[Tips/Tricks in CNN](http://lamda.nju.edu.cn/weixs/project/CNNTricks/CNNTricks.html)**
 
- - 1) data augmentation; 
- - 2) pre-processing on images; 
- - 3) initializations of Networks; 
- - 4) some tips during training; 
- - 5) selections of activation functions; 
- - 6) diverse regularizations; 
- - 7) some insights found from figures and finally 
- - 8) methods of ensemble multiple deep networks.
+- 1) data augmentation; 
+- 2) pre-processing on images; 
+- 3) initializations of Networks; 
+- 4) some tips during training; 
+- 5) selections of activation functions; 
+- 6) diverse regularizations; 
+- 7) some insights found from figures and finally 
+- 8) methods of ensemble multiple deep networks.
 
 ## [Transfer Learning using Keras](https://towardsdatascience.com/transfer-learning-using-keras-d804b2e04ef8)
-1. **New dataset is small and similar to original dataset:**
-There is a problem of over-fitting, if we try to train the entire network. Since the data is similar to the original data, we expect higher-level features in the ConvNet to be relevant to this dataset as well. Hence, the best idea might be to train a linear classifier on the CNN codes.
+
+> 1. **New dataset is small and similar to original dataset:**
+>    There is a problem of over-fitting, if we try to train the entire network. Since the data is similar to the original data, we expect higher-level features in the ConvNet to be relevant to this dataset as well. Hence, the best idea might be to train a linear classifier on the CNN codes.
 
 So lets freeze all the VGG19 layers and train only the classifier
+
 ```python
 for layer in model.layers:
    layer.trainable = False
  
 #Now we will be training only the classifiers (FC layers)
 ```
-2. **New dataset is large and similar to the original dataset**
-Since we have more data, we can have more confidence that we won’t overfit if we were to try to fine-tune through the full network.
-``` python
+
+> 1. **New dataset is large and similar to the original dataset**
+>    Since we have more data, we can have more confidence that we won’t overfit if we were to try to fine-tune through the full network.
+
+```python
 for layer in model.layers:
    layer.trainable = True
 #The default is already set to True. I have mentioned it here to make things clear.
 ```
+
 In case if you want to freeze the first few layers as these layers will be detecting edges and blobs, you can freeze them by using the following code.
+
 ```python
 for layer in model.layers[:5]:
    layer.trainable = False.
 # Here I am freezing the first 5 layers 
 ```
-3. **New dataset is small but very different from the original dataset**
-Since the dataset is very small, We may want to extract the features from the earlier layer and train a classifier on top of that. This requires a little bit of knowledge on h5py.
 
-The above code should help. It will extract the “block2_pool” features. In general this is not helpful as this layer has (64*64*128) features and training a classifier on top of it might not help us exactly. We can add a few FC layers and train a neural network on top of it. That should be straight forward.
+> 1. **New dataset is small but very different from the original dataset**
+>    Since the dataset is very small, We may want to extract the features from the earlier layer and train a classifier on top of that. This requires a little bit of knowledge on h5py.The above code should help. It will extract the “block2_pool” features. In general this is not helpful as this layer has (64*64*128) features and training a classifier on top of it might not help us exactly. We can add a few FC layers and train a neural network on top of it. That should be straight forward.
 
-*Add few FC layers and output layer.
+> - Add few FC layers and output layer.
 
-*Set the weights for earlier layers and freeze them.
+> - Set the weights for earlier layers and freeze them.
 
-*Train the network.
+> - Train the network.
 
-4. **New dataset is large and very different from the original dataset.**
-This is straight forward. since you have large dataset, you can design your own network or use the existing ones.
+> 1. **New dataset is large and very different from the original dataset.**
+>    This is straight forward. since you have large dataset, you can design your own network or use the existing ones.
 
-*Train the network using random initialisations or use the pre-trained network weights as initialisers. The second one is generally preferred.
+> - Train the network using random initialisations or use the pre-trained network weights as initialisers. The second one is generally preferred.
 
-*If you are using a different network or making small modification here and there for the existing network, Be careful with the naming conventions.
+> - If you are using a different network or making small modification here and there for the existing network, Be careful with the naming conventions.
 
->[Transfer Learning in TensorFlow on the Kaggle Rainforest competition](https://medium.com/@luckylwk/transfer-learning-in-tensorflow-on-the-kaggle-rainforest-competition-4e978fadb571)
+[Transfer Learning in TensorFlow on the Kaggle Rainforest competition](https://medium.com/@luckylwk/transfer-learning-in-tensorflow-on-the-kaggle-rainforest-competition-4e978fadb571)
 
->[Transfer Learning and Fine-tuning](https://medium.com/deeplearningsandbox/how-to-use-transfer-learning-and-fine-tuning-in-keras-and-tensorflow-to-build-an-image-recognition-94b0b02444f2)
+[Transfer Learning and Fine-tuning](https://medium.com/deeplearningsandbox/how-to-use-transfer-learning-and-fine-tuning-in-keras-and-tensorflow-to-build-an-image-recognition-94b0b02444f2)
 
-相关论文:
+# 2.框架论文
 
 **[[VGG16] VERY DEEP CONVOLUTIONAL NETWORKS FOR LARGE-SCALE IMAGE RECOGNITION](https://arxiv.org/abs/1409.1556)**
+
 - VGG16
-``` python
+
+```python
 from keras.models import Sequential
 from keras.layers import Dense, Activation, Dropout, Flatten
 from keras.layers import Conv2D
@@ -115,8 +116,10 @@ model = Sequential([
 
 model.summary()
 ```
+
 - VGG19
-``` python
+
+```python
 from keras.models import Sequential
 from keras.layers import Dense, Activation, Dropout, Flatten
 from keras.layers import Conv2D
@@ -161,9 +164,10 @@ model.summary()
 为什么1*1卷积-https://iamaaditya.github.io/2016/03/one-by-one-convolution/
 
 讲解-https://becominghuman.ai/understanding-and-coding-inception-module-in-keras-eb56e9056b4b
+
 <div align=center><img width="550" src=resource/1.png></div>
 
-``` python
+```python
 #-*- coding: UTF-8 -*-
 """
 Author: lanbing510
@@ -297,14 +301,15 @@ def check_print():
 if __name__=='__main__':
     check_print() 
 ```
+
  **[[Inception V2], Batch Normalization:Accelerating Deep Network Training by Reducing Internal Covariate Shift](http://arxiv.org/abs/1502.03167)**
 
 Inception V2的网络在Inception v1的基础上，进行了改进，一方面了加入了BN层，减少了Internal Covariate Shift（内部神经元分布的改变），使每一层的输出都规范化到一个N(0, 1)的高斯，还去除了Dropout、LRN等结构；另外一方面学习VGG用2个3x3的卷积替代inception模块中的5x5卷积，既降低了参数数量，又加速计算。
 
 **[[Inception-v3] Rethinking the Inception Architecture for Computer Vision](https://arxiv.org/abs/1512.00567)**
- 
+
  Inception V3一个最重要的改进是分解（Factorization），将7x7分解成两个一维的卷积（1x7,7x1），3x3也是一样（1x3,3x1）。这样的好处，既可以加速计算（多余的计算能力可以用来加深网络），又可以将1个conv拆成2个conv，使得网络深度进一步增加，增加了网络的非线性，可以处理更多更丰富的空间特征，增加特征多样性。还有值得注意的地方是网络输入从224x224变为了299x299，更加精细设计了35x35/17x17/8x8的模块。
- 
+
 **[[Inception-v4] Inception-ResNet and the Impact of Residual Connections on Learning](https://arxiv.org/abs/1602.07261)**
 
 Inception V4结合了微软的ResNet，发现ResNet的结构可以极大地加速训练，同时性能也有提升，得到一个Inception-ResNet V2网络，同时还设计了一个更深更优化的Inception V4模型，能达到与Inception-ResNet V2相媲美的性能。
@@ -317,70 +322,6 @@ Inception V4结合了微软的ResNet，发现ResNet的结构可以极大地加�
 
 讲解-https://blog.csdn.net/u014380165/article/details/75142710
 
-# CNN 应用案例
-
-课外资料
-注：部分资料来自国外 youtube 与 google research.
-
-**了解 [WaveNet](https://deepmind.com/blog/wavenet-generative-model-raw-audio/) 模型。**
-
->如果你能训练人工智能机器人唱歌，干嘛还训练它聊天？在 2017 年 4 月，研究人员使用 WaveNet 模型的变体生成了歌曲。原始论文和演示可以在[此处](http://www.creativeai.net/posts/W2C3baXvf2yJSLbY6/a-neural-parametric-singing-synthesizer)找到。
-
-**了解[文本分类CNN](http://www.wildml.com/2015/12/implementing-a-cnn-for-text-classification-in-tensorflow/) 。**
-
->你或许想注册作者的深度学习简讯！
-
-**了解 Facebook 的[创新 CNN 方法(Facebook)](https://code.facebook.com/posts/1978007565818999/a-novel-approach-to-neural-machine-translation/)**，该方法专门用于解决语言翻译任务，准确率达到了前沿性水平，并且速度是 RNN 模型的 9 倍。
-
-**利用 CNN 和强化学习玩 [Atari](https://deepmind.com/research/dqn/) 游戏。你可以[下载](https://sites.google.com/a/deepmind.com/dqn/)此论文附带的代码。**
-
->如果你想研究一些（深度强化学习）初学者代码，建议你参阅 [Andrej Karpathy](http://karpathy.github.io/2016/05/31/rl/) 的帖子。
-
-**利用 CNN [玩看图说词游戏](https://quickdraw.withgoogle.com/#)！**
-
->此外，还可以参阅 [A.I. Experiments](https://aiexperiments.withgoogle.com/) 网站上的所有其他很酷的实现。别忘了 [AutoDraw](https://www.autodraw.com/)！
-
-**详细了解 [AlphaGo](https://deepmind.com/research/alphago/)。**
-
->阅读[这篇文章](https://www.technologyreview.com/s/604273/finding-solace-in-defeat-by-artificial-intelligence/?set=604287)，其中提出了一个问题：如果掌控 Go“需要人类直觉”，那么人性受到挑战是什么感觉？_
-
-**观看这些非常酷的视频，其中的无人机都受到 CNN 的支持。**
-
->这是初创企业 [Intelligent Flying Machines (IFM)](https://www.youtube.com/watch?v=AMDiR61f86Y) (Youtube)的访谈。
-
->户外自主导航通常都要借助[全球定位系统 (GPS)](http://www.droneomega.com/gps-drone-navigation-works/)，但是下面的演示展示的是由 CNN 提供技术支持的[自主无人机](https://www.youtube.com/watch?v=wSFYOw4VIYY)(Youtube)。
-
-**如果你对无人驾驶汽车使用的 CNN 感兴趣，请参阅：**
-
->我们的[无人驾驶汽车工程师纳米学位课程](https://www.udacity.com/course/self-driving-car-engineer-nanodegree--nd013)，我们在[此项目](https://github.com/udacity/CarND-Traffic-Sign-Classifier-Project)中对[德国交通标志](http://benchmark.ini.rub.de/?section=gtsrb&subsection=dataset)数据集中的标志进行分类。
-
->这些[系列博客](https://pythonprogramming.net/game-frames-open-cv-python-plays-gta-v/)，其中详细讲述了如何训练用 Python 编写的 CNN，以便生成能够玩“侠盗猎车手”的无人驾驶 AI。
-
-**参阅视频中没有提到的其他应用情形。**
-
->一些全球最著名的画作被[转换成了三维形式](http://www.businessinsider.com/3d-printed-works-of-art-for-the-blind-2016-1)，以便视力受损人士也能欣赏。虽然这篇文章没有提到是怎么做到的，我们注意到可以使用 CNN [预测单个图片的深度](https://www.cs.nyu.edu/~deigen/depth/)。
-
->参阅这篇关于使用 CNN 确定乳腺癌位置的[研究论文](https://research.googleblog.com/2017/03/assisting-pathologists-in-detecting.html)(google research)。
-
->CNN 被用来[拯救濒危物种](https://blogs.nvidia.com/blog/2016/11/04/saving-endangered-species/?adbsc=social_20170303_70517416)！
-
->一款叫做 [FaceApp](http://www.digitaltrends.com/photography/faceapp-neural-net-image-editing/) 的应用使用 CNN 让你在照片中是微笑状态或改变性别。
-
-
-此外，我注意到你使用的图片是从我们提供的数据集中选取的，我非常不推荐这种做法。这种行为可能会导致标签泄露（Label Leakage），并不能很好的评估你的模型的泛化能力。因为，模型在训练过程中本身就是在不断拟合训练集，它能很好地预测训练集里的图片是理所应当的。而验证泛化能力最好的做法就是，使用真实的、在训练集/测试集/验证集都没有出现过的图片来进行测试。你可以自由的使用网上的图片或者自己的图片~😉 同时，希望你能尝试类型的图片来进行实验，比如猫、多条狗（可以是不同品种）、带着狗耳朵的人、风景照等。按照机器学习的思路，你的输入覆盖的输入空间越多，那么你就能对模型进行越好的评估。也就是说，你尝试的图片类型越多，对模型的评估能力就越强。😄
-
-以下是我对改进模型提出的建议，希望对你有帮助：
-
-1.交叉验证（Cross Validation） 在本次训练中，我们只进行了一次训练集/测试集切分，而在实际模型训练过程中，我们往往是使用交叉验证（Cross Validation）来进行模型选择（Model Selection）和调参（Parameter Tunning）的。交叉验证的通常做法是，按照某种方式多次进行训练集/测试集切分，最终取平均值（加权平均值），具体可以参考维基百科)的介绍。
-
-2.模型融合/集成学习（Model Ensembling） 通过利用一些机器学习中模型融合的技术，如voting、bagging、blending以及staking等，可以显著提高模型的准确率与鲁棒性，且几乎没有风险。你可以参考我整理的机器学习笔记中的Ensemble部分。
-
-3.更多的数据 对于深度学习（机器学习）任务来说，更多的数据意味着更为丰富的输入空间，可以带来更好的训练效果。我们可以通过数据增强（Data Augmentation）、对抗生成网络（Generative Adversarial Networks）等方式来对数据集进行扩充，同时这种方式也能提升模型的鲁棒性。
-
-4.更换人脸检测算法 尽管OpenCV工具包非常方便并且高效，Haar级联检测也是一个可以直接使用的强力算法，但是这些算法仍然不能获得很高的准确率，并且需要用户提供正面照片，这带来的一定的不便。所以如果想要获得更好的用户体验和准确率，我们可以尝试一些新的人脸识别算法，如基于深度学习的一些算法。
-
-5.多目标监测 更进一步，我们可以通过一些先进的目标识别算法，如RCNN、Fast-RCNN、Faster-RCNN或Masked-RCNN等，来完成一张照片中同时出现多个目标的检测任务。
-
 # 损失和优化算法
 
 *损失函数是用来估量模型中预测值y与真实值Y之间的差异，即不一致程度
@@ -390,21 +331,22 @@ Inception V4结合了微软的ResNet，发现ResNet的结构可以极大地加�
 Keras 中有很多不同的[损失函数](https://keras.io/losses/)。对于这节课来说，我们将仅使用 **categorical_crossentropy**。
 
 参阅 Keras 中可[用的优化程序列表](https://keras.io/optimizers/)。当你编译模型（在记事本的第 7 步）时就会指定优化程序。
->**'sgd'** : SGD
 
->**'rmsprop'** : RMSprop
+> **'sgd'** : SGD
 
->**'adagrad'** : Adagrad
+> **'rmsprop'** : RMSprop
 
->**'adadelta'** : Adadelta
+> **'adagrad'** : Adagrad
 
->**'adam'** : Adam
+> **'adadelta'** : Adadelta
 
->**'adamax'** : Adamax
+> **'adam'** : Adam
 
->**'nadam'** : Nadam
+> **'adamax'** : Adamax
 
->**'tfoptimizer'** : TFOptimizer
+> **'nadam'** : Nadam
+
+> **'tfoptimizer'** : TFOptimizer
 
 **关于激活函数的[文档](http://cs231n.github.io/neural-networks-1/#actfun)**
 
@@ -428,18 +370,19 @@ Keras 中有很多不同的[损失函数](https://keras.io/losses/)。对于这�
 
 `fit_generator` 具有很多参数，包括
 
-``` python
+```python
 steps_per_epoch = x_train.shape[0] / batch_size
 ```
+
 其中 `x_train.shape[0]` 对应的是训练数据集 x_train 中的独特样本数量。通过将 steps_per_epoch 设为此值，我们确保模型在每个 epoch 中看到 `x_train.shape[0]` 个增强图片。
 
+> 阅读这篇对 MNIST 数据集进行可视化的[精彩博文](http://machinelearningmastery.com/image-augmentation-deep-learning-keras/)。
 
+> 参阅此[详细实现](https://blog.keras.io/building-powerful-image-classification-models-using-very-little-data.html)，了解如何使用增强功能提高 Kaggle 数据集的效果。
 
->阅读这篇对 MNIST 数据集进行可视化的[精彩博文](http://machinelearningmastery.com/image-augmentation-deep-learning-keras/)。
+> 阅读关于 ImageDataGenerator 类的 Keras [文档](https://keras.io/preprocessing/image/)。
 
->参阅此[详细实现](https://blog.keras.io/building-powerful-image-classification-models-using-very-little-data.html)，了解如何使用增强功能提高 Kaggle 数据集的效果。
-
->阅读关于 ImageDataGenerator 类的 Keras [文档](https://keras.io/preprocessing/image/)。
+# 防止过拟合
 
 # 补充资料
 
@@ -471,22 +414,86 @@ steps_per_epoch = x_train.shape[0] / batch_size
 
 如果你想详细了解如何解读 CNN（尤其是卷积层），建议查看以下资料：
 
->这是摘自斯坦福大学的 CS231n 课程中的一个a [章节](http://cs231n.github.io/understanding-cnn/)，其中对 CNN 学习的内容进行了可视化。
+> 这是摘自斯坦福大学的 CS231n 课程中的一个a [章节](http://cs231n.github.io/understanding-cnn/)，其中对 CNN 学习的内容进行了可视化。
 
->参阅这个关于很酷的 [OpenFrameworks](http://openframeworks.cc/) 应用的[演示](https://aiexperiments.withgoogle.com/what-neural-nets-see)，该应用可以根据用户提供的视频实时可视化 CNN！
+> 参阅这个关于很酷的 [OpenFrameworks](http://openframeworks.cc/) 应用的[演示](https://aiexperiments.withgoogle.com/what-neural-nets-see)，该应用可以根据用户提供的视频实时可视化 CNN！
 
->这是另一个 CNN 可视化工具的[演示](https://www.youtube.com/watch?v=AgkfIQ4IGaM&t=78s)。如果你想详细了解这些可视化图表是如何制作的，请观看此[视频](https://www.youtube.com/watch?v=ghEmQSxT6tw&t=5s)。
+> 这是另一个 CNN 可视化工具的[演示](https://www.youtube.com/watch?v=AgkfIQ4IGaM&t=78s)。如果你想详细了解这些可视化图表是如何制作的，请观看此[视频](https://www.youtube.com/watch?v=ghEmQSxT6tw&t=5s)。
 
->这是另一个可与 Keras 和 Tensorflow 中的 CNN 无缝合作的[可视化工具](https://medium.com/merantix/picasso-a-free-open-source-visualizer-for-cnns-d8ed3a35cfc5)。
+> 这是另一个可与 Keras 和 Tensorflow 中的 CNN 无缝合作的[可视化工具](https://medium.com/merantix/picasso-a-free-open-source-visualizer-for-cnns-d8ed3a35cfc5)。
 
->阅读这篇可视化 CNN 如何看待这个世界的 [Keras 博文](https://blog.keras.io/how-convolutional-neural-networks-see-the-world.html)。在此博文中，你会找到 Deep Dreams 的简单介绍，以及在 Keras 中自己编写 Deep Dreams 的代码。阅读了这篇博文后：
+> 阅读这篇可视化 CNN 如何看待这个世界的 [Keras 博文](https://blog.keras.io/how-convolutional-neural-networks-see-the-world.html)。在此博文中，你会找到 Deep Dreams 的简单介绍，以及在 Keras 中自己编写 Deep Dreams 的代码。阅读了这篇博文后：
 
->再观看这个利用 [Deep Dreams](https://www.youtube.com/watch?v=XatXy6ZhKZw) 的音乐视频（注意 3:15-3:40 部分）！
+> 再观看这个利用 [Deep Dreams](https://www.youtube.com/watch?v=XatXy6ZhKZw) 的音乐视频（注意 3:15-3:40 部分）！
 
->使用这个[网站](https://deepdreamgenerator.com/)创建自己的 Deep Dreams（不用编写任何代码！）。
+> 使用这个[网站](https://deepdreamgenerator.com/)创建自己的 Deep Dreams（不用编写任何代码！）。
 
 如果你想详细了解 CNN 的解释
 
->这篇[文章](https://blog.openai.com/adversarial-example-research/)详细讲解了在现实生活中使用深度学习模型（暂时无法解释）的一些危险性。
+> 这篇[文章](https://blog.openai.com/adversarial-example-research/)详细讲解了在现实生活中使用深度学习模型（暂时无法解释）的一些危险性。
 
->这一领域有很多热点研究。[这些作者](https://arxiv.org/abs/1611.03530)最近朝着正确的方向迈出了一步。
+> 这一领域有很多热点研究。[这些作者](https://arxiv.org/abs/1611.03530)最近朝着正确的方向迈出了一步。
+
+# CNN 应用案例
+
+课外资料
+注：部分资料来自国外 youtube 与 google research.
+
+**了解 [WaveNet](https://deepmind.com/blog/wavenet-generative-model-raw-audio/) 模型。**
+
+> 如果你能训练人工智能机器人唱歌，干嘛还训练它聊天？在 2017 年 4 月，研究人员使用 WaveNet 模型的变体生成了歌曲。原始论文和演示可以在[此处](http://www.creativeai.net/posts/W2C3baXvf2yJSLbY6/a-neural-parametric-singing-synthesizer)找到。
+
+**了解[文本分类CNN](http://www.wildml.com/2015/12/implementing-a-cnn-for-text-classification-in-tensorflow/) 。**
+
+> 你或许想注册作者的深度学习简讯！
+
+**了解 Facebook 的[创新 CNN 方法(Facebook)](https://code.facebook.com/posts/1978007565818999/a-novel-approach-to-neural-machine-translation/)**，该方法专门用于解决语言翻译任务，准确率达到了前沿性水平，并且速度是 RNN 模型的 9 倍。
+
+**利用 CNN 和强化学习玩 [Atari](https://deepmind.com/research/dqn/) 游戏。你可以[下载](https://sites.google.com/a/deepmind.com/dqn/)此论文附带的代码。**
+
+> 如果你想研究一些（深度强化学习）初学者代码，建议你参阅 [Andrej Karpathy](http://karpathy.github.io/2016/05/31/rl/) 的帖子。
+
+**利用 CNN [玩看图说词游戏](https://quickdraw.withgoogle.com/#)！**
+
+> 此外，还可以参阅 [A.I. Experiments](https://aiexperiments.withgoogle.com/) 网站上的所有其他很酷的实现。别忘了 [AutoDraw](https://www.autodraw.com/)！
+
+**详细了解 [AlphaGo](https://deepmind.com/research/alphago/)。**
+
+> 阅读[这篇文章](https://www.technologyreview.com/s/604273/finding-solace-in-defeat-by-artificial-intelligence/?set=604287)，其中提出了一个问题：如果掌控 Go“需要人类直觉”，那么人性受到挑战是什么感觉？_
+
+**观看这些非常酷的视频，其中的无人机都受到 CNN 的支持。**
+
+> 这是初创企业 [Intelligent Flying Machines (IFM)](https://www.youtube.com/watch?v=AMDiR61f86Y) (Youtube)的访谈。
+
+> 户外自主导航通常都要借助[全球定位系统 (GPS)](http://www.droneomega.com/gps-drone-navigation-works/)，但是下面的演示展示的是由 CNN 提供技术支持的[自主无人机](https://www.youtube.com/watch?v=wSFYOw4VIYY)(Youtube)。
+
+**如果你对无人驾驶汽车使用的 CNN 感兴趣，请参阅：**
+
+> 我们的[无人驾驶汽车工程师纳米学位课程](https://www.udacity.com/course/self-driving-car-engineer-nanodegree--nd013)，我们在[此项目](https://github.com/udacity/CarND-Traffic-Sign-Classifier-Project)中对[德国交通标志](http://benchmark.ini.rub.de/?section=gtsrb&subsection=dataset)数据集中的标志进行分类。
+
+> 这些[系列博客](https://pythonprogramming.net/game-frames-open-cv-python-plays-gta-v/)，其中详细讲述了如何训练用 Python 编写的 CNN，以便生成能够玩“侠盗猎车手”的无人驾驶 AI。
+
+**参阅视频中没有提到的其他应用情形。**
+
+> 一些全球最著名的画作被[转换成了三维形式](http://www.businessinsider.com/3d-printed-works-of-art-for-the-blind-2016-1)，以便视力受损人士也能欣赏。虽然这篇文章没有提到是怎么做到的，我们注意到可以使用 CNN [预测单个图片的深度](https://www.cs.nyu.edu/~deigen/depth/)。
+
+> 参阅这篇关于使用 CNN 确定乳腺癌位置的[研究论文](https://research.googleblog.com/2017/03/assisting-pathologists-in-detecting.html)(google research)。
+
+> CNN 被用来[拯救濒危物种](https://blogs.nvidia.com/blog/2016/11/04/saving-endangered-species/?adbsc=social_20170303_70517416)！
+
+> 一款叫做 [FaceApp](http://www.digitaltrends.com/photography/faceapp-neural-net-image-editing/) 的应用使用 CNN 让你在照片中是微笑状态或改变性别。
+
+此外，我注意到你使用的图片是从我们提供的数据集中选取的，我非常不推荐这种做法。这种行为可能会导致标签泄露（Label Leakage），并不能很好的评估你的模型的泛化能力。因为，模型在训练过程中本身就是在不断拟合训练集，它能很好地预测训练集里的图片是理所应当的。而验证泛化能力最好的做法就是，使用真实的、在训练集/测试集/验证集都没有出现过的图片来进行测试。你可以自由的使用网上的图片或者自己的图片~😉 同时，希望你能尝试类型的图片来进行实验，比如猫、多条狗（可以是不同品种）、带着狗耳朵的人、风景照等。按照机器学习的思路，你的输入覆盖的输入空间越多，那么你就能对模型进行越好的评估。也就是说，你尝试的图片类型越多，对模型的评估能力就越强。😄
+
+以下是我对改进模型提出的建议，希望对你有帮助：
+
+1.交叉验证（Cross Validation） 在本次训练中，我们只进行了一次训练集/测试集切分，而在实际模型训练过程中，我们往往是使用交叉验证（Cross Validation）来进行模型选择（Model Selection）和调参（Parameter Tunning）的。交叉验证的通常做法是，按照某种方式多次进行训练集/测试集切分，最终取平均值（加权平均值），具体可以参考维基百科)的介绍。
+
+2.模型融合/集成学习（Model Ensembling） 通过利用一些机器学习中模型融合的技术，如voting、bagging、blending以及staking等，可以显著提高模型的准确率与鲁棒性，且几乎没有风险。你可以参考我整理的机器学习笔记中的Ensemble部分。
+
+3.更多的数据 对于深度学习（机器学习）任务来说，更多的数据意味着更为丰富的输入空间，可以带来更好的训练效果。我们可以通过数据增强（Data Augmentation）、对抗生成网络（Generative Adversarial Networks）等方式来对数据集进行扩充，同时这种方式也能提升模型的鲁棒性。
+
+4.更换人脸检测算法 尽管OpenCV工具包非常方便并且高效，Haar级联检测也是一个可以直接使用的强力算法，但是这些算法仍然不能获得很高的准确率，并且需要用户提供正面照片，这带来的一定的不便。所以如果想要获得更好的用户体验和准确率，我们可以尝试一些新的人脸识别算法，如基于深度学习的一些算法。
+
+5.多目标监测 更进一步，我们可以通过一些先进的目标识别算法，如RCNN、Fast-RCNN、Faster-RCNN或Masked-RCNN等，来完成一张照片中同时出现多个目标的检测任务。
+
